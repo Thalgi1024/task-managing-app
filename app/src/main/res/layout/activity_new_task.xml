@@ -6,4 +6,107 @@
     android:layout_height="match_parent"
     tools:context=".NewTaskActivity">
 
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="47dp">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create New Task"
+            android:textSize="36sp"
+            app:fontFamily="sans-serif-condensed-light" />
+
+        <EditText
+            android:id="@+id/taskNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Task Name" />
+
+        <EditText
+            android:id="@+id/dueDateText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Date (mm/dd/yy)" />
+
+        <TextView
+            android:id="@+id/repeatText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Repeat on: "
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/mondayBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Monday" />
+
+        <CheckBox
+            android:id="@+id/tuesdayBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tuesday" />
+
+        <CheckBox
+            android:id="@+id/wednesdayBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wednesday" />
+
+        <CheckBox
+            android:id="@+id/thursdayBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thursday" />
+
+        <CheckBox
+            android:id="@+id/fridayBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Friday" />
+
+        <CheckBox
+            android:id="@+id/saturdayBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Saturday" />
+
+        <CheckBox
+            android:id="@+id/sundayBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sunday" />
+
+        <Spinner
+            android:id="@+id/category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dropDownWidth="wrap_content"
+            android:entries="@array/categories_array"/>
+
+        <EditText
+            android:id="@+id/descriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Description" />
+
+        <Button
+            android:id="@+id/createTaskButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Task" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
