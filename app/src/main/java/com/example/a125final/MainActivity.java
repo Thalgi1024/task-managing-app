@@ -10,6 +10,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,8 +61,26 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == newTaskRequestCode) {
             String newCategoryName = data.getStringExtra("category");
-            Task taskToAdd = new Task();
+            Task taskToAdd;
             //insert logic to create Task based on intents here
+            if (data.getBooleanExtra("repeating", true)) {
+                boolean[] repeatingDates = data.getBooleanArrayExtra("daterepeat");
+                String description = data.getStringExtra("description");
+                String taskName = data.getStringExtra("taskName");
+                taskToAdd = new Task(taskName, repeatingDates, description);
+            } else {
+
+                //parse date from string date
+                String dateAsString = data.getStringExtra("date");
+                String[] dateValues = dateAsString.split("/");
+                int day = Integer.parseInt(dateValues[0]);
+                int month = Integer.parseInt(dateValues[1]);
+                int year = Integer.parseInt(dateValues[2]);
+                Date date = new Date(year, month, day);
+                String description = data.getStringExtra("description");
+                String taskName = data.getStringExtra("taskName");
+                taskToAdd = new Task(taskName, date, description);
+            }
 
             Category categoryToAddTo = categories.get(newCategoryName);
             categoryToAddTo.addTask(taskToAdd);
