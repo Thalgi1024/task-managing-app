@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string-array name="categories_array">
-        <item>Fitness</item>
-        <item>Academics</item>
-        <item>Work</item>
-        <item>Habit</item>
-        <item>Other</item>
-    </string-array>
+<string-array name="categories_array">
+    <item>Fitness</item>
+    <item>Academics</item>
+    <item>Work</item>
+    <item>Habit</item>
+    <item>Other</item>
+</string-array>
 </resources>
