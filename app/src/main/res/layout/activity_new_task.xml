@@ -22,13 +22,41 @@
             android:textSize="36sp"
             app:fontFamily="sans-serif-condensed-light" />
 
-        <EditText
-            android:id="@+id/taskNameText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Task Name" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/taskNameText"
+                android:layout_width="696dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="95"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Task Name" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="90"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/repeatingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:text="Repeating" />
+
+                <Switch
+                    android:id="@+id/repeatingSwitch"
+                    android:layout_width="64dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/dueDateText"
