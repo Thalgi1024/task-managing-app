@@ -73,47 +73,54 @@
             android:text="Repeat on: "
             android:textSize="18sp" />
 
-        <CheckBox
-            android:id="@+id/mondayBox"
+        <LinearLayout
+            android:id="@+id/weekDayGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Monday" />
+            android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/tuesdayBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tuesday" />
+            <CheckBox
+                android:id="@+id/mondayBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Monday" />
 
-        <CheckBox
-            android:id="@+id/wednesdayBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Wednesday" />
+            <CheckBox
+                android:id="@+id/tuesdayBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tuesday" />
 
-        <CheckBox
-            android:id="@+id/thursdayBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Thursday" />
+            <CheckBox
+                android:id="@+id/wednesdayBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wednesday" />
 
-        <CheckBox
-            android:id="@+id/fridayBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Friday" />
+            <CheckBox
+                android:id="@+id/thursdayBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thursday" />
 
-        <CheckBox
-            android:id="@+id/saturdayBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Saturday" />
+            <CheckBox
+                android:id="@+id/fridayBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Friday" />
 
-        <CheckBox
-            android:id="@+id/sundayBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sunday" />
+            <CheckBox
+                android:id="@+id/saturdayBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Saturday" />
+
+            <CheckBox
+                android:id="@+id/sundayBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sunday" />
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/category"

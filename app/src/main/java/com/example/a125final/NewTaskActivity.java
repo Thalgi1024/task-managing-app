@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,6 +43,25 @@ public class NewTaskActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        EditText dueDateText = findViewById(R.id.dueDateText);
+        dueDateText.setVisibility(View.VISIBLE);
+
+        LinearLayout weekDayGroup = findViewById(R.id.weekDayGroup);
+        weekDayGroup.setVisibility(View.GONE);
+
+        Switch repeatingSwitch = findViewById(R.id.repeatingSwitch);
+        repeatingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
+                if (checked) {
+                    weekDayGroup.setVisibility(View.VISIBLE);
+                    dueDateText.setVisibility(View.GONE);
+                } else {
+                    weekDayGroup.setVisibility(View.GONE);
+                    dueDateText.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     /**
@@ -59,19 +82,20 @@ public class NewTaskActivity extends AppCompatActivity {
         CheckBox sundayBox = findViewById(R.id.sundayBox);
 
         Spinner category = findViewById(R.id.category);
+        Switch repeatingSwitch = findViewById(R.id.repeatingSwitch);
 
         //Checks if the task is set to be repeating.
-        boolean[] dateRepeat = {mondayBox.isChecked(), tuesdayBox.isChecked(), wednesdayBox.isChecked(),
-                thursdayBox.isChecked(), fridayBox.isChecked(), saturdayBox.isChecked(), sundayBox.isChecked()};
-        for (boolean checked : dateRepeat) {
-            if (checked) {
-                result.putExtra("repeating", true);
-                result.putExtra("daterepeat", dateRepeat);
-                result.putExtra("taskName", taskNameText.getText().toString());
-                result.putExtra("description", descriptionText.getText().toString());
-                result.putExtra("category", category.getSelectedItem().toString());
-                return true;
-            }
+        if (repeatingSwitch.isChecked()) {
+            boolean[] dateRepeat = {mondayBox.isChecked(), tuesdayBox.isChecked(), wednesdayBox.isChecked(),
+                    thursdayBox.isChecked(), fridayBox.isChecked(), saturdayBox.isChecked(), sundayBox.isChecked()};
+
+            result.putExtra("repeating", true);
+            result.putExtra("daterepeat", dateRepeat);
+            result.putExtra("taskName", taskNameText.getText().toString());
+            result.putExtra("description", descriptionText.getText().toString());
+            result.putExtra("category", category.getSelectedItem().toString());
+
+            return true;
         }
 
         String dateText = dueDateText.getText().toString();
