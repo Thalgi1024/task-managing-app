@@ -66,18 +66,18 @@
             android:inputType="textPersonName"
             android:text="Date (dd/mm/yyyy)" />
 
-        <TextView
-            android:id="@+id/repeatText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Repeat on: "
-            android:textSize="18sp" />
-
         <LinearLayout
             android:id="@+id/weekDayGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/repeatText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Repeat on: "
+                android:textSize="18sp" />
 
             <CheckBox
                 android:id="@+id/mondayBox"
