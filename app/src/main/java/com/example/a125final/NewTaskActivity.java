@@ -108,7 +108,7 @@ public class NewTaskActivity extends AppCompatActivity {
             result.putExtra("date", dateText);
         }
 
-        //Task name should not be longer than 20 characters.
+        //Task name should not be longer than 28 characters.
         if (taskNameText.getText().toString().length() > 20) {
             taskNameText.setText("Maximum task name length is 20 characters.");
 

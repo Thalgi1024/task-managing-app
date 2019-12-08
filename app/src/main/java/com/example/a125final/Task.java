@@ -85,9 +85,6 @@ public class Task {
     }
 
     public Date getDate() {
-        if (isRepeating) {
-            return date;
-        }
         return date;
     }
 
@@ -95,6 +92,18 @@ public class Task {
      * @return date in yyyy-mm-dd format as a String
      */
     public String displayDate() {
+        if (isRepeating) {
+            String result = "Repeats on: ";
+            String[] dates = {"M ", "Tu ", "W ", "Th ", "F ", "Sa ", "Su "};
+
+            for (int i = 0; i < dateRepeat.length; i++) {
+                if (dateRepeat[i]) {
+                    result += dates[i];
+                }
+            }
+
+            return result;
+        }
         return date.toString();
     }
 

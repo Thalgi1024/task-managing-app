@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 String dateAsString = data.getStringExtra("date");
                 String[] dateValues = dateAsString.split("/");
                 int day = Integer.parseInt(dateValues[0]);
-                int month = Integer.parseInt(dateValues[1]);
+                int month = Integer.parseInt(dateValues[1]) - 1;
                 int year = Integer.parseInt(dateValues[2]);
                 Date date = new Date(year, month, day);
                 String description = data.getStringExtra("description");
@@ -110,13 +110,8 @@ public class MainActivity extends AppCompatActivity {
                     TextView taskName = taskChunk.findViewById(R.id.taskName);
                     TextView dueDate = taskChunk.findViewById(R.id.dueDate);
 
-                    String taskNameText = t.getTaskName();
-                    while (taskNameText.length() < 20) {
-                        taskNameText += " ";
-                    }
-
-                    taskName.setText(taskNameText);
-                    dueDate.setText(t.getDate().toString());
+                    taskName.setText(t.getTaskName());
+                    dueDate.setText(t.displayDate());
 
                     categoryLayout.addView(taskChunk);
                 }
