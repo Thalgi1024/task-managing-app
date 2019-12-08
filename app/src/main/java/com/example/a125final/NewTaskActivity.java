@@ -91,27 +91,30 @@ public class NewTaskActivity extends AppCompatActivity {
 
             result.putExtra("repeating", true);
             result.putExtra("daterepeat", dateRepeat);
-            result.putExtra("taskName", taskNameText.getText().toString());
-            result.putExtra("description", descriptionText.getText().toString());
-            result.putExtra("category", category.getSelectedItem().toString());
+        } else {
+            String dateText = dueDateText.getText().toString();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-            return true;
+            dateFormat.setLenient(false);
+
+            try {
+                dateFormat.parse(dateText);
+            } catch (ParseException e) {
+                dueDateText.setText("Please enter a valid date in the form: dd/mm/yyyy.");
+                return false;
+            }
+
+            result.putExtra("repeating", false);
+            result.putExtra("date", dateText);
         }
 
-        String dateText = dueDateText.getText().toString();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        //Task name should not be longer than 20 characters.
+        if (taskNameText.getText().toString().length() > 20) {
+            taskNameText.setText("Maximum task name length is 20 characters.");
 
-        dateFormat.setLenient(false);
-
-        try {
-            dateFormat.parse(dateText);
-        } catch (ParseException e) {
-            dueDateText.setText("Please enter a valid date in the form: dd/mm/yyyy.");
             return false;
         }
 
-        result.putExtra("repeating", false);
-        result.putExtra("date", dateText);
         result.putExtra("taskName", taskNameText.getText().toString());
         result.putExtra("description", descriptionText.getText().toString());
         result.putExtra("category", category.getSelectedItem().toString());

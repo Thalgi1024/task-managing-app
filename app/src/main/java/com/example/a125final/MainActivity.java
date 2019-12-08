@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -13,6 +15,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton addTaskButton;
 
-    private HashMap<String, Category> categories = new HashMap<String, Category>();
+    private Map<String, Category> categories = new HashMap<String, Category>();
 
     private List<String> categoryNames = new ArrayList<String>();
 
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == newTaskRequestCode) {
             String newCategoryName = data.getStringExtra("category");
             Task taskToAdd;
+
             //insert logic to create Task based on intents here
             if (data.getBooleanExtra("repeating", true)) {
                 boolean[] repeatingDates = data.getBooleanArrayExtra("daterepeat");
@@ -69,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 String taskName = data.getStringExtra("taskName");
                 taskToAdd = new Task(taskName, repeatingDates, description);
             } else {
-
                 //parse date from string date
                 String dateAsString = data.getStringExtra("date");
                 String[] dateValues = dateAsString.split("/");
@@ -84,8 +87,42 @@ public class MainActivity extends AppCompatActivity {
 
             Category categoryToAddTo = categories.get(newCategoryName);
             categoryToAddTo.addTask(taskToAdd);
+
+            updateUI();
         }
     }
 
+    private void updateUI() {
+        LinearLayout mainLayout = findViewById(R.id.mainLayout);
+        mainLayout.removeAllViews();
 
+        for (Map.Entry<String, Category> entry : categories.entrySet()) {
+            if (entry.getValue().getTasks().size() > 0) {
+                View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, mainLayout, false);
+
+                TextView categoryText = categoryChunk.findViewById(R.id.categoryText);
+                categoryText.setText(entry.getKey());
+
+                LinearLayout categoryLayout = categoryChunk.findViewById(R.id.categoryLayout);
+                for (Task t : entry.getValue().getTasks()) {
+                    View taskChunk = getLayoutInflater().inflate(R.layout.chunk_task, categoryLayout, false);
+
+                    TextView taskName = taskChunk.findViewById(R.id.taskName);
+                    TextView dueDate = taskChunk.findViewById(R.id.dueDate);
+
+                    String taskNameText = t.getTaskName();
+                    while (taskNameText.length() < 20) {
+                        taskNameText += " ";
+                    }
+
+                    taskName.setText(taskNameText);
+                    dueDate.setText(t.getDate().toString());
+
+                    categoryLayout.addView(taskChunk);
+                }
+
+                mainLayout.addView(categoryChunk);
+            }
+        }
+    }
 }

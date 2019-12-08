@@ -85,6 +85,9 @@ public class Task {
     }
 
     public Date getDate() {
+        if (isRepeating) {
+            return date;
+        }
         return date;
     }
 

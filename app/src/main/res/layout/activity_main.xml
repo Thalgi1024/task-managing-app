@@ -8,106 +8,31 @@
     >
 
 
-    <LinearLayout
-        android:id="@+id/categoryOne"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/categoryOneLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/createTaskButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/categoryOneTasks"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/categoryTwo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/categoryTwoLabel"
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/categoryTwoTasks"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/categoryThree"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/categoryThreeLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <LinearLayout
-            android:id="@+id/categoryThreeTasks"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/categoryFour"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/categoryFourLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <LinearLayout
-            android:id="@+id/categoryFourTasks"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/categoryFive"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/categoryFiveLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <LinearLayout
-            android:id="@+id/categoryFiveTasks"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
-    </LinearLayout>
-
+            <TextView
+                android:id="@+id/yourTaskText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Tasks"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="36sp"
+                app:fontFamily="sans-serif-condensed-light" />
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createTaskButton"
