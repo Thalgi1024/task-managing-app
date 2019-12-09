@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -20,6 +22,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private final int newTaskRequestCode = 1;
+
+    private final int updateTaskRequestCode = 2;
 
     private FloatingActionButton addTaskButton;
 
@@ -46,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                System.out.println("Hello There");
                 addTask();
 
             }
@@ -57,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
     private void addTask() {
         Intent intent = new Intent(this, NewTaskActivity.class);
         startActivityForResult(intent, newTaskRequestCode);
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        intent.putExtra("requestCode", requestCode);
+        super.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -92,6 +101,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void updateTask(Task t, String categoryName, int taskIndexInCategory) {
+        Intent intent = new Intent(this, NewTaskActivity.class);
+        intent.putExtra("repeating", t.isRepeating());
+        intent.putExtra("taskName", t.getTaskName());
+        if (t.isRepeating()) {
+            intent.putExtra("dateRepeat", t.getDateRepeat());
+        } else {
+            Date d = t.getDate();
+            String day = "" + d.getDate();
+            String month = "" + d.getMonth();
+            if (day.length() == 1) {
+                day = "0" + day;
+            }
+            if (month.length() == 1) {
+                month = "0" + month;
+            }
+
+            int year = d.getYear() + 1900;
+            String ddMMYYYYDate = day + "/" + month + "/" + year;
+            intent.putExtra("date", ddMMYYYYDate);
+        }
+        intent.putExtra("desc", t.getDescription());
+        intent.putExtra("category", categoryName);
+        //store current index of the category so the task can be identified after the activity ends
+        intent.putExtra("indexInCategory", taskIndexInCategory);
+        startActivityForResult(intent, updateTaskRequestCode);
+    }
+
     private void updateUI() {
         LinearLayout mainLayout = findViewById(R.id.mainLayout);
         mainLayout.removeAllViews();
@@ -112,7 +149,26 @@ public class MainActivity extends AppCompatActivity {
 
                     taskName.setText(t.getTaskName());
                     dueDate.setText(t.displayDate());
+                    Button deleteTaskButton = taskChunk.findViewById(R.id.deleteButton);
+                    deleteTaskButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            entry.getValue().removeTask(t);
+                            taskChunk.setVisibility(View.GONE);
+                            updateUI();
+                        }
 
+                    });
+
+                    Button updateTaskButton = taskChunk.findViewById(R.id.infoButton);
+                    updateTaskButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            updateTask(t, entry.getValue().getName(), entry.getValue().getTaskIndex(t));
+
+                        }
+
+                    });
                     categoryLayout.addView(taskChunk);
                 }
 

@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,7 +27,12 @@ import java.text.ParseException;
  */
 public class NewTaskActivity extends AppCompatActivity {
     /** The result of the activity to be sent back. */
-    Intent result;
+    private Intent result;
+
+    /** Intent passed in from MainActivity */
+    private Intent thisIntent;
+
+    private int requestCode;
 
     /**
      * Runs when the activity is started.
@@ -34,15 +44,11 @@ public class NewTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_task);
 
         result = new Intent();
+        thisIntent = getIntent();
+        requestCode = thisIntent.getIntExtra("requestCode", 1);
+        result.putExtra("requestCode", requestCode);
 
-        Button createTaskButton = findViewById(R.id.createTaskButton);
-        createTaskButton.setOnClickListener(unused -> {
-            if (createTask()) {
 
-                setResult(1, result);
-                finish();
-            }
-        });
 
         EditText dueDateText = findViewById(R.id.dueDateText);
         dueDateText.setVisibility(View.VISIBLE);
@@ -62,13 +68,61 @@ public class NewTaskActivity extends AppCompatActivity {
                 }
             }
         });
+
+        String titleText;
+        if (requestCode == 1) {
+            titleText = "Create Task";
+
+        } else {
+            //at this point, requestCode has to be equal to 2 (updateTask)
+            titleText = "Update Task";
+            boolean repeatable = thisIntent.getBooleanExtra("repeating", true);
+            repeatingSwitch.setChecked(repeatable);
+            if (repeatable) {
+                boolean[] repeatingDates = thisIntent.getBooleanArrayExtra("dateRepeat");
+                CheckBox monday = (CheckBox) findViewById(R.id.mondayBox);
+                monday.setChecked(repeatingDates[0]);
+                CheckBox tuesday = (CheckBox) findViewById(R.id.tuesdayBox);
+                tuesday.setChecked(repeatingDates[1]);
+                CheckBox wednesday = (CheckBox) findViewById(R.id.wednesdayBox);
+                wednesday.setChecked(repeatingDates[2]);
+                CheckBox thursday = (CheckBox) findViewById(R.id.thursdayBox);
+                thursday.setChecked(repeatingDates[3]);
+                CheckBox friday = (CheckBox) findViewById(R.id.fridayBox);
+                friday.setChecked(repeatingDates[4]);
+                CheckBox saturday = (CheckBox) findViewById(R.id.saturdayBox);
+                saturday.setChecked(repeatingDates[5]);
+                CheckBox sunday = (CheckBox) findViewById(R.id.sundayBox);
+                sunday.setChecked(repeatingDates[6]);
+            } else {
+                String day = thisIntent.getStringExtra("date");
+                TextView dateTextBox = findViewById(R.id.dueDateText);
+                dateTextBox.setText(day);
+            }
+            result.putExtra("oldCategoryName", thisIntent.getStringExtra("category"));
+            result.putExtra("oldCategoryIndex",
+                    thisIntent.getIntExtra("indexInCategory", 0));
+
+        }
+
+        Button createTaskButton = findViewById(R.id.createTaskButton);
+        createTaskButton.setText(titleText);
+        TextView title = findViewById(R.id.titleText);
+        title.setText(titleText);
+        createTaskButton.setOnClickListener(unused -> {
+            if (doneWithActivity()) {
+
+                setResult(requestCode, result);
+                finish();
+            }
+        });
     }
 
     /**
      * Attempts to create a task with given input from the user.
      * @return Whether the task was created successfully or not
      */
-    private boolean createTask() {
+    private boolean doneWithActivity() {
         EditText taskNameText = findViewById(R.id.taskNameText);
         EditText dueDateText = findViewById(R.id.dueDateText);
         EditText descriptionText = findViewById(R.id.descriptionText);
@@ -86,9 +140,17 @@ public class NewTaskActivity extends AppCompatActivity {
 
         //Checks if the task is set to be repeating.
         if (repeatingSwitch.isChecked()) {
+
+            //if none of the boxes are checked
+            if (!mondayBox.isChecked() && !tuesdayBox.isChecked() && !wednesdayBox.isChecked()
+                && !thursdayBox.isChecked() && !fridayBox.isChecked() && !saturdayBox.isChecked()
+                && !sundayBox.isChecked()) {
+                Toast.makeText(getApplicationContext(),"Please select a day to repeat on",
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
             boolean[] dateRepeat = {mondayBox.isChecked(), tuesdayBox.isChecked(), wednesdayBox.isChecked(),
                     thursdayBox.isChecked(), fridayBox.isChecked(), saturdayBox.isChecked(), sundayBox.isChecked()};
-
             result.putExtra("repeating", true);
             result.putExtra("daterepeat", dateRepeat);
         } else {
@@ -100,7 +162,9 @@ public class NewTaskActivity extends AppCompatActivity {
             try {
                 dateFormat.parse(dateText);
             } catch (ParseException e) {
-                dueDateText.setText("Please enter a valid date in the form: dd/mm/yyyy.");
+                Toast.makeText(getApplicationContext(),
+                        "Please enter a valid date in the form: dd/mm/yyyy.",
+                        Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -110,8 +174,8 @@ public class NewTaskActivity extends AppCompatActivity {
 
         //Task name should not be longer than 28 characters.
         if (taskNameText.getText().toString().length() > 20) {
-            taskNameText.setText("Maximum task name length is 20 characters.");
-
+            Toast.makeText(getApplicationContext(),
+                    "Maximum task name length is 20 characters.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

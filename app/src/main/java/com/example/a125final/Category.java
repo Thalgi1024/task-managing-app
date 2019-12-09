@@ -47,6 +47,10 @@ public class Category {
         return tasks;
     }
 
+    public int getTaskIndex(Task t) {
+        return tasks.indexOf(t);
+    }
+
     public String getName() {
         return name;
     }
