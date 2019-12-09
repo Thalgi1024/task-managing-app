@@ -84,11 +84,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 //parse date from string date
                 String dateAsString = data.getStringExtra("date");
-                String[] dateValues = dateAsString.split("/");
-                int day = Integer.parseInt(dateValues[0]);
-                int month = Integer.parseInt(dateValues[1]) - 1;
-                int year = Integer.parseInt(dateValues[2]);
-                Date date = new Date(year, month, day);
+                Date date = parseStringDate(dateAsString);
                 String description = data.getStringExtra("description");
                 String taskName = data.getStringExtra("taskName");
                 taskToAdd = new Task(taskName, date, description);
@@ -99,6 +95,44 @@ public class MainActivity extends AppCompatActivity {
 
             updateUI();
         }
+        if (resultCode == updateTaskRequestCode) {
+            String oldCategoryName = data.getStringExtra("oldCategoryName");
+            int oldCategoryIndex = data.getIntExtra("oldCategoryIndex", 0);
+            Category oldCategory = categories.get(oldCategoryName);
+            Task taskToBeUpdated = oldCategory.getTask(oldCategoryIndex);
+
+            String description = data.getStringExtra("description");
+            String taskName = data.getStringExtra("taskName");
+            taskToBeUpdated.setDescription(description);
+            taskToBeUpdated.setTaskName(taskName);
+            if (data.getBooleanExtra("repeating", true)) {
+                boolean[] repeatingDates = data.getBooleanArrayExtra("daterepeat");
+                taskToBeUpdated.setRepeating(true);
+                taskToBeUpdated.setDateRepeat(repeatingDates);
+            } else {
+                //parse date from string date
+                String dateAsString = data.getStringExtra("date");
+                Date date = parseStringDate(dateAsString);
+                taskToBeUpdated.setDate(date);
+            }
+            String newCategoryName = data.getStringExtra("category");
+            if (!newCategoryName.equals(oldCategoryName)) {
+                //category got changed
+                Category newCategory = categories.get(newCategoryName);
+                newCategory.addTask(taskToBeUpdated);
+                oldCategory.removeTask(oldCategoryIndex);
+            }
+            updateUI();
+        }
+    }
+
+    private Date parseStringDate(String dateAsString) {
+        String[] dateValues = dateAsString.split("/");
+        int day = Integer.parseInt(dateValues[0]);
+        int month = Integer.parseInt(dateValues[1]) - 1;
+        int year = Integer.parseInt(dateValues[2]) - 1900;
+        Date date = new Date(year, month, day);
+        return date;
     }
 
     private void updateTask(Task t, String categoryName, int taskIndexInCategory) {

@@ -43,6 +43,10 @@ public class Category {
         }
     }
 
+    public Task getTask(int index) {
+        return tasks.get(index);
+    }
+
     public ArrayList<Task> getTasks() {
         return tasks;
     }

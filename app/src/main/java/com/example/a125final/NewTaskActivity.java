@@ -102,6 +102,7 @@ public class NewTaskActivity extends AppCompatActivity {
             result.putExtra("oldCategoryName", thisIntent.getStringExtra("category"));
             result.putExtra("oldCategoryIndex",
                     thisIntent.getIntExtra("indexInCategory", 0));
+            result.putExtra("oldRepeat", thisIntent.getBooleanExtra("dateRepeat", true));
 
         }
 
