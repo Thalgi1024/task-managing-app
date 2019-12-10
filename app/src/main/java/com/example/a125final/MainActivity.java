@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Date d = t.getDate();
             String day = "" + d.getDate();
-            String month = "" + d.getMonth();
+            String month = "" + (d.getMonth() + 1);
             if (day.length() == 1) {
                 day = "0" + day;
             }

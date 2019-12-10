@@ -21,6 +21,7 @@ import org.w3c.dom.Text;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.util.Date;
 
 /**
  * Represents the new task creation screen, where the user creates a new task.
@@ -159,14 +160,24 @@ public class NewTaskActivity extends AppCompatActivity {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
             dateFormat.setLenient(false);
-
+            Date temp;
             try {
-                dateFormat.parse(dateText);
+                temp = dateFormat.parse(dateText);
             } catch (ParseException e) {
                 Toast.makeText(getApplicationContext(),
                         "Please enter a valid date in the form: dd/mm/yyyy.",
                         Toast.LENGTH_SHORT).show();
                 return false;
+            }
+            Date current = new Date();
+            if (temp.before(current)) {
+                //same day is ok
+                if (!(current.getDate() == temp.getDate() && current.getMonth() == temp.getMonth() && current.getYear() == temp.getYear())) {
+                    Toast.makeText(getApplicationContext(),
+                            "Due date must be upcoming", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
             }
 
             result.putExtra("repeating", false);
